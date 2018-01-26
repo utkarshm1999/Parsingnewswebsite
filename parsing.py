@@ -1,6 +1,6 @@
 import urllib2
-
 from bs4 import BeautifulSoup
+
 print "enter a date in dd/mm/yy format"
 dd=raw_input()
 mm=raw_input()
@@ -9,6 +9,11 @@ yy=raw_input()
 url='http://www.rediff.com/issues/'+dd+mm+yy+'hl.html'
 page=urllib2.urlopen(url)
 soup=BeautifulSoup(page,'html.parser')
+
+#file named headlines to store all the searches
+file=open("headlines","a")
+file.write("\n HEADLINES FOR THE DAY "+dd+"/"+mm+"/20"+yy+"\n")
+
 #since i only need the headlines and not sports,etc related stuffs I am segregating the division containing the headlines
 div=soup.find('div',attrs={'id':"hdtab1"})
 #searching for all the a tags in the headlines
@@ -17,6 +22,8 @@ itag=div.find_all('a',attrs={'target':'_new'})
 for x in range(1,len(itag)):
  #to print in this format 1."HEADLINE1"    
     print str(x)+"."+itag[x].text
-    
+    file.write(str(x)+"."+itag[x]+"\n")
+   
+print "\n\ndata updated to the file headlines"    
 
                    
